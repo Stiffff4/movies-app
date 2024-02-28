@@ -16,6 +16,7 @@ import { useQuery } from '@tanstack/react-query';
 import { TvShowType } from '../../types/content.types';
 import { EnvironmentHelper } from '../../helpers/environment.helper';
 import { Helmet } from 'react-helmet';
+import { Status } from '../../enums/tvshow.enum';
 
 export const TvShow = () => {
   const { id } = useParams<string>();
@@ -49,7 +50,14 @@ export const TvShow = () => {
 
   const productionIconName = in_production ? 'cog' : 'check square outline';
 
-  const statusIconName = ContentHelper.getStatusIconName(status);
+  const statusIconName =
+    status == Status.Returning
+      ? 'calendar plus outline'
+      : status == Status.Ended
+      ? 'calendar check outline'
+      : status == Status.Canceled
+      ? 'calendar minus outline'
+      : 'calendar check outline';
 
   const seasonPanels = seasons.map((season) => ({
     key: season.id,
